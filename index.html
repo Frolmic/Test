@@ -5,92 +5,75 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redirecting...</title>
-  <!-- Fallback redirect -->
   <meta http-equiv="refresh" content="5;url=https://g0b5df056173dda-mainadb.adb.us-chicago-1.oraclecloudapps.com/ords/r/website/p1/home" />
-
   <style>
     /* Reset & base */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; font-family: 'Segoe UI', sans-serif; background: #4e54c8; overflow: hidden; }
+    html, body { width: 100%; height: 100%; font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #2193b0, #6dd5ed); overflow: hidden; cursor: none; }
     body { display: flex; align-items: center; justify-content: center; }
-
-    /* Container */
-    .container {
-      position: relative; text-align: center; padding: 2rem; color: #fff;
-      animation: fadeIn 0.8s ease-out;
+    /* Cursor follower */
+    .cursor-follower {
+      position: fixed; top: 0; left: 0; width: 24px; height: 24px;
+      background: rgba(255,255,255,0.8); border-radius: 50%; pointer-events: none;
+      mix-blend-mode: lighten; transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease; z-index: 9999;
     }
+    /* Water ripple */
+    .ripple { position: absolute; width: 20px; height: 20px; background: rgba(255,255,255,0.5);
+      border-radius: 50%; pointer-events: none; animation: rippleAnim 0.2s ease-out; z-index: 9998; }
+    @keyframes rippleAnim {
+      from { transform: scale(1); opacity: 0.7; } to { transform: scale(6); opacity: 0; }
+    }
+    /* Container */
+    .container { position: relative; text-align: center; padding: 2rem; color: #fff; animation: fadeIn 0.8s ease-out; }
     h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
     p { font-size: 1.1rem; margin-bottom: 1.5rem; }
-    a.btn {
-      display: inline-block; padding: 0.6rem 1.2rem; border: 2px solid #fff;
-      border-radius: 30px; text-decoration: none; color: #fff;
-      font-size: 1rem; transition: all 0.3s;
-    }
-    a.btn:hover { background: #fff; color: #4e54c8; }
-
+    .btn { display: inline-block; padding: 0.6rem 1.2rem; border: 2px solid #fff;
+      border-radius: 30px; text-decoration: none; color: #fff; font-size: 1rem; transition: all 0.3s; }
+    .btn:hover { background: #fff; color: #2193b0; }
     /* Progress Bar */
-    .progress {
-      width: 200px; height: 8px; background: rgba(255,255,255,0.3);
-      border-radius: 4px; margin: 0 auto 1.5rem; overflow: hidden;
-    }
-    .progress > div {
-      width: 0%; height: 100%; background: #fff;
-      transition: width 1s linear;
-    }
-
-    /* Floating shapes via CSS variables */
-    .shape {
-      position: absolute; border-radius: 50%; opacity: 0.2;
-      animation: float var(--duration) ease-in-out infinite;
-    }
-    .shape:nth-child(1) { --size: 100px; --top: 10%; --left: 20%; --duration: 6s; background: #fff; width: var(--size); height: var(--size); }
-    .shape:nth-child(2) { --size: 140px; --top: 65%; --left: 75%; --duration: 8s; background: #fff; width: var(--size); height: var(--size); }
-    .shape:nth-child(3) { --size: 80px;  --top: 30%; --left: 50%; --duration: 5s; background: rgba(255,255,255,0.6); width: var(--size); height: var(--size); }
-    .shape:nth-child(4) { --size: 50px;  --top: 80%; --left: 30%; --duration: 7s; background: rgba(255,255,255,0.4); width: var(--size); height: var(--size); }
-    @keyframes float {
-      0%,100% { transform: translateY(0) translateX(0); }
-      50% { transform: translateY(-20px) translateX(15px); }
-    }
-
-    /* Animations */
+    .progress { width: 200px; height: 8px; background: rgba(255,255,255,0.3);
+      border-radius: 4px; margin: 0 auto 1.5rem; overflow: hidden; }
+    .progress > div { width: 0%; height: 100%; background: #fff; transition: width 1s linear; }
+    /* Floating shapes */
+    .shape { position: absolute; border-radius: 50%; opacity: 0.15; animation: float var(--duration) ease-in-out infinite; }
+    .shape:nth-child(1) { --size: 100px; --top: 15%; --left: 25%; --duration: 6s; background: #fff; width: var(--size); height: var(--size); top: var(--top); left: var(--left); }
+    .shape:nth-child(2) { --size: 140px; --top: 70%; --left: 80%; --duration: 8s; background: #fff; width: var(--size); height: var(--size); top: var(--top); left: var(--left); }
+    .shape:nth-child(3) { --size: 80px; --top: 35%; --left: 50%; --duration: 5s; background: rgba(255,255,255,0.6); width: var(--size); height: var(--size); top: var(--top); left: var(--left); }
+    .shape:nth-child(4) { --size: 60px; --top: 85%; --left: 30%; --duration: 7s; background: rgba(255,255,255,0.4); width: var(--size); height: var(--size); top: var(--top); left: var(--left); }
+    @keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(15px,-20px); } }
+    /* Fade-in */
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
-
 <body>
-  <!-- Background shapes -->
-  <div class="shape"></div><div class="shape"></div>
-  <div class="shape"></div><div class="shape"></div>
-
+  <div id="cursor" class="cursor-follower"></div>
+  <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
   <div class="container">
-    <!-- Optional Logo -->
     <img src="https://via.placeholder.com/120x40?text=Logo" alt="Logo" style="margin-bottom:1rem; opacity:0.8;" />
-
     <h1>Redirecting You Soon</h1>
-    <p id="message">You will be taken to our main site in <span id="count" aria-live="polite">5</span> seconds.</p>
-
+    <p>You will be taken to our main site in <span id="count" aria-live="polite">5</span> seconds.</p>
     <div class="progress"><div></div></div>
     <a href="https://g0b5df056173dda-mainadb.adb.us-chicago-1.oraclecloudapps.com/ords/r/website/p1/home" class="btn">Go Now</a>
   </div>
-
   <script>
+    // Redirect timer
     (function() {
-      const total = 5, bar = document.querySelector('.progress > div');
-      let sec = total;
-      const countEl = document.getElementById('count');
-      const url = 'https://g0b5df056173dda-mainadb.adb.us-chicago-1.oraclecloudapps.com/ords/r/website/p1/home';
-
-      const tick = () => {
-        sec--;
-        if (sec >= 0) {
-          countEl.textContent = sec;
-          bar.style.width = ((total - sec) / total * 100) + '%';
-        }
-        if (sec <= 0) clearInterval(timer);
-      };
-
-      const timer = setInterval(tick, 1000);
-      setTimeout(() => location.href = url, total * 1000);
+      const total=5, bar=document.querySelector('.progress>div'), countEl=document.getElementById('count'), url='https://g0b5df056173dda-mainadb.adb.us-chicago-1.oraclecloudapps.com/ords/r/website/p1/home';
+      let sec=total;
+      const timer=setInterval(() => { sec--; if(sec>=0){ countEl.textContent=sec; bar.style.width=((total-sec)/total*100)+'%'; } if(sec<=0) clearInterval(timer); },1000);
+      setTimeout(()=>location.href=url,total*1000);
+    })();
+    // Water ripple every 0.5s & cursor follow
+    (function(){
+      const cursor=document.getElementById('cursor');
+      let posX=window.innerWidth/2, posY=window.innerHeight/2;
+      document.addEventListener('mousemove',e=>{ posX=e.clientX; posY=e.clientY; cursor.style.transform=`translate(${posX}px,${posY}px)`; });
+      document.addEventListener('touchmove',e=>{ const t=e.touches[0]; posX=t.clientX; posY=t.clientY; cursor.style.transform=`translate(${posX}px,${posY}px)`; },{passive:true});
+      setInterval(()=>{
+        const r=document.createElement('div'); r.className='ripple'; r.style.left=`${posX-10}px`; r.style.top=`${posY-10}px`; document.body.appendChild(r);
+        setTimeout(()=>r.remove(),600);
+      },500);
     })();
   </script>
 </body>
