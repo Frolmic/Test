@@ -20,7 +20,7 @@
     }
     /* Water ripple */
     .ripple { position: absolute; width: 20px; height: 20px; background: rgba(255,255,255,0.5);
-      border-radius: 50%; pointer-events: none; animation: rippleAnim 0.2s ease-out; z-index: 9998; }
+      border-radius: 50%; pointer-events: none; animation: rippleAnim 1.6s ease-out; z-index: 9998; }
     @keyframes rippleAnim {
       from { transform: scale(1); opacity: 0.7; } to { transform: scale(6); opacity: 0; }
     }
@@ -72,7 +72,7 @@
       document.addEventListener('touchmove',e=>{ const t=e.touches[0]; posX=t.clientX; posY=t.clientY; cursor.style.transform=`translate(${posX}px,${posY}px)`; },{passive:true});
       setInterval(()=>{
         const r=document.createElement('div'); r.className='ripple'; r.style.left=`${posX-10}px`; r.style.top=`${posY-10}px`; document.body.appendChild(r);
-        setTimeout(()=>r.remove(),600);
+        setTimeout(()=>r.remove(),100);
       },500);
     })();
   </script>
